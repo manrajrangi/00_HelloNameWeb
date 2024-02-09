@@ -11,13 +11,13 @@ const port = 3000;
 let names = []; // Array to store names
 
 app.get('/', (req, res) => {
-  let greeting = `<h1>Hello ????</h1>`;
+  let greeting = `<h1>Hello World!</h1>`;
   if (names.length > 0) {
     //
     // Code here to create greeting using names array  greeting = ????;
     //
   }
-    res.send(`
+  res.send(`
       <!DOCTYPE html>
       <html>
       <head>
@@ -25,27 +25,31 @@ app.get('/', (req, res) => {
       </head>
       <body>
           ${greeting}
-          //
-          // Code here to create form with text input and submit to /submit-name
-          //
+          <form action="/submit-name" method="post">
+            <input type="text" name="username" placeholder="Enter your name" required>
+            <button type="submit">Submit</button>
+          </form>
       </body>
       </html>
     `);
-  });
+});
 
 app.post('/submit-name', (req, res) => {
-    const name = req.body.username;
+  const name = req.body.username;
+  names.push(name);
   // Code here to save name
-    res.redirect('/');
-  });
+  res.send(`<h1>Thank you ${name}!</h1>`);
+  //res.redirect('/');
+});
 // New route to list all names
 app.get('/names', (req, res) => {
-    let namesList = '<ul>';
-   //
-   // Code here to create list of names using <li> elements
-   //
-    namesList += '</ul>';
-    res.send(`
+  let namesList = '<ul>';
+  for (let name of names) {
+    namesList += `<li>${name}</li>`;
+  }
+  namesList += '</ul>';
+
+  res.send(`
       <!DOCTYPE html>
       <html>
       <head>
@@ -58,9 +62,9 @@ app.get('/names', (req, res) => {
       </body>
       </html>
     `);
-  });
+});
 
-  // New route to list all names - Notice use of template literals ` ` to create string
+// New route to list all names - Notice use of template literals ` ` to create string
 app.get('/names2', (req, res) => {
   let namesList = '<ul>';
   for (let name of names) {
@@ -81,7 +85,7 @@ app.get('/names2', (req, res) => {
     </html>
   `);
 });
-  
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
