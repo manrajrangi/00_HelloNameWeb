@@ -1,11 +1,12 @@
-// let template = require('./template')
+let template = require('./template')
 let express = require('express');
 let bodyParser = require('body-parser');
 let path = require('path');
 let app = express();
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
-const port = 3000;
+const port = 3001;
+// serve static files
 
 
 
@@ -21,23 +22,9 @@ app.get('/', (req, res) => {
     }
     namesList += '</ul>';
   }
-  res.send(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-          <title>Enter Name</title>
-      </head>
-      <body>
-          ${greeting}
-          <form action="/submit-name" method="post">
-            <input type="text" name="username" placeholder="Enter your name" required>
-            <button type="submit">Submit</button>
-          </form>
-          <h1>List of Names:</h1>
-          <div>${namesList}</div>
-      </body>
-      </html>
-    `);
+// this injects the greeting and namesList into the template
+  let page = template(greeting, namesList); 
+  res.send(page);
 });
 
 app.post('/submit-name', (req, res) => {

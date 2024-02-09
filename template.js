@@ -1,4 +1,4 @@
-function template(greeting, namesList){
+let template = function template(greeting, namesList){
     return `
         <!DOCTYPE html>
         <html>
@@ -22,6 +22,6 @@ function template(greeting, namesList){
             </div>
         </body>
         </html>`;
-}   
+} 
    
 module.exports = template;
