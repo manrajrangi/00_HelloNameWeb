@@ -1,3 +1,4 @@
+// let template = require('./template')
 let express = require('express');
 let bodyParser = require('body-parser');
 let path = require('path');
@@ -12,10 +13,13 @@ let names = []; // Array to store names
 
 app.get('/', (req, res) => {
   let greeting = `<h1>Hello World!</h1>`;
+  let namesList = '';
   if (names.length > 0) {
-    //
-    // Code here to create greeting using names array  greeting = ????;
-    //
+    namesList = '<ul>';
+    for (let name of names) {
+      namesList += `<li>${name}</li>`;
+    }
+    namesList += '</ul>';
   }
   res.send(`
       <!DOCTYPE html>
@@ -29,6 +33,8 @@ app.get('/', (req, res) => {
             <input type="text" name="username" placeholder="Enter your name" required>
             <button type="submit">Submit</button>
           </form>
+          <h1>List of Names:</h1>
+          <div>${namesList}</div>
       </body>
       </html>
     `);
@@ -38,8 +44,7 @@ app.post('/submit-name', (req, res) => {
   const name = req.body.username;
   names.push(name);
   // Code here to save name
-  res.send(`<h1>Thank you ${name}!</h1>`);
-  //res.redirect('/');
+  res.redirect('/');
 });
 // New route to list all names
 app.get('/names', (req, res) => {
