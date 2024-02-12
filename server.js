@@ -31,7 +31,8 @@ app.post('/submit-name', (req, res) => {
   const name = req.body.username;
   names.push(name);
   // Code here to save name
-  res.redirect('/');
+  res.send('<h1>Thank you ${name}!</h1>');
+  //res.redirect('/');
 });
 // New route to list all names
 app.get('/names', (req, res) => {
